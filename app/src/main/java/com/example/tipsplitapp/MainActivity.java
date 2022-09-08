@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //TODO: Find a way to update the tip textviews upon radio buttons update
+
     public void calcListener() {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
