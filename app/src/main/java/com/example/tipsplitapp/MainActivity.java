@@ -60,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
         tipBtn = findViewById(rId);
 
         String tip = tipBtn.getText().toString();
+        tip = tip.substring(0, tip.length()-1);
+
         double tipVal = Double.parseDouble(tip);
-        return tipVal;
+        return tipVal/100.0;
     }
 
     public void clearListener(){
@@ -94,9 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
                 double tipRate = tipListener();
 
-                double res = billTotalVal/numPeople;
                 double tip_res = billTotalVal*tipRate;
                 double billPlusTip = billTotalVal+tip_res;
+                double res = billPlusTip/numPeople;
+
                 tv_totalTip.setText(String.format("%.2f", billPlusTip));
                 tv_tipAmount.setText(String.format("%.2f", tip_res));
                 tv_calculatedSplit.setText(String.format("%.2f", res));
