@@ -2,6 +2,7 @@ package com.example.tipsplitapp;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -55,6 +56,19 @@ public class MainActivity extends AppCompatActivity {
         rTipListener();
         calcListener();
         clearListener();
+    }
+
+    //these two methods allow for the textview to be retained after rotation
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("result", tv_calculatedSplit.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        tv_calculatedSplit.setText(savedInstanceState.getString("result"));
     }
 
     public double tipListener(){ //gets the value of the tip button selected
