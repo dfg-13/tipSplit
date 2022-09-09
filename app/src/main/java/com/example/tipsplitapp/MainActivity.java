@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -50,12 +51,13 @@ public class MainActivity extends AppCompatActivity {
         //Clear/reset button to clear all text inputs and reset radio buttons
         clearButton = findViewById(R.id.clearButton);
 
+        //preventTipListener();
+        rTipListener();
         calcListener();
         clearListener();
-
     }
 
-    public double tipListener(){
+    public double tipListener(){ //gets the value of the tip button selected
         int rId = rg_tipButtons.getCheckedRadioButtonId();
         tipBtn = findViewById(rId);
 
@@ -66,7 +68,31 @@ public class MainActivity extends AppCompatActivity {
         return tipVal/100.0;
     }
 
-    public void clearListener(){
+    /* TODO find a way to uncheck the radio group when the edittext is empty
+    public void preventTipListener(){
+        et_billTotal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (rg_tipButtons.getCheckedRadioButtonId() != -1){
+                    rg_tipButtons.clearCheck();
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+     */
+
+
+    public void clearListener(){ //button to reset/clear all views
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -80,9 +106,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //TODO: Find a way to update the tip textviews upon radio buttons update
+    public void rTipListener(){ //listener to allow live updates to the textviews regarding tips
+        RadioGroup rg = (RadioGroup) findViewById(R.id.rg_tips);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId){
+                String billTotal = et_billTotal.getText().toString();
+                if (billTotal.isEmpty())
+                    return;
+                double billTotalVal = Double.parseDouble(billTotal);
+                double tip = tipListener(); //gets tip rate
+                double tipNum = billTotalVal*tip;
+                double totalTip = tipNum+billTotalVal;
 
-    public void calcListener() {
+                String tipTemp = String.format("%.2f", tipNum);
+                String totalTemp = String.format("%.2f", totalTip);
+
+                StringBuilder sb = new StringBuilder(tipTemp);
+                sb.insert(0, "$");
+                StringBuilder sb2= new StringBuilder(totalTemp);
+                sb2.insert(0,"$");
+
+                tv_tipAmount.setText(sb);
+                tv_totalTip.setText(sb2);
+            }
+        });
+    }
+
+    public void calcListener() {//listener for the "GO" button to calculate the final split costs
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -100,11 +152,22 @@ public class MainActivity extends AppCompatActivity {
 
                 double tip_res = billTotalVal*tipRate;
                 double billPlusTip = billTotalVal+tip_res;
-                double res = billPlusTip/numPeople;
+                double res = Math.ceil((billPlusTip/numPeople) * 100.0) / 100.0;
 
-                tv_totalTip.setText(String.format("%.2f", billPlusTip));
-                tv_tipAmount.setText(String.format("%.2f", tip_res));
-                tv_calculatedSplit.setText(String.format("%.2f", res));
+                String resTemp = String.format("%.2f", res);
+                String tipTemp = String.format("%.2f", tip_res);
+                String totalTemp = String.format("%.2f", billPlusTip);
+
+                StringBuilder sb3 = new StringBuilder(resTemp);
+                sb3.insert(0,"$");
+                StringBuilder sb1 = new StringBuilder(tipTemp);
+                sb1.insert(0, "$");
+                StringBuilder sb2= new StringBuilder(totalTemp);
+                sb2.insert(0,"$");
+
+                tv_tipAmount.setText(sb1);
+                tv_totalTip.setText(sb2);
+                tv_calculatedSplit.setText(sb3);
             }
         });
     }
