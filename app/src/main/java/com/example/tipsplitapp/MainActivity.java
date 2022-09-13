@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -61,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     //these two methods allow for the textview to be retained after rotation
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("tipAmount", tv_tipAmount.getText().toString());
-        outState.putString("totalWithTip", tv_totalTip.getText().toString());
+        //outState.putString("tipAmount", tv_tipAmount.getText().toString());
+        //outState.putString("totalWithTip", tv_totalTip.getText().toString());
         outState.putString("result", tv_calculatedSplit.getText().toString());
         super.onSaveInstanceState(outState);
     }
@@ -71,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
         tv_calculatedSplit.setText(savedInstanceState.getString("result"));
-        tv_tipAmount.setText(savedInstanceState.getString("tipAmount"));
-        tv_totalTip.setText(savedInstanceState.getString("totalWithTip"));
+        //tv_tipAmount.setText(savedInstanceState.getString("tipAmount"));
+        //tv_totalTip.setText(savedInstanceState.getString("totalWithTip"));
     }
 
     public double tipListener(){ //gets the value of the tip button selected
@@ -85,30 +87,6 @@ public class MainActivity extends AppCompatActivity {
         double tipVal = Double.parseDouble(tip);
         return tipVal/100.0;
     }
-
-    /* TODO find a way to uncheck the radio group when the edittext is empty
-    public void preventTipListener(){
-        et_billTotal.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (rg_tipButtons.getCheckedRadioButtonId() != -1){
-                    rg_tipButtons.clearCheck();
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-    }
-     */
-
 
     public void clearListener(){ //button to reset/clear all views
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -124,24 +102,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void rTipListener(){ //listener to allow live updates to the textviews regarding tips
+    public void rTipListener(){ //listener to allow live updates to the text views regarding tips
         RadioGroup rg = (RadioGroup) findViewById(R.id.rg_tips);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId){
                 String billTotal = et_billTotal.getText().toString();
-
+                if (billTotal.isEmpty()) //essential don't DELETE
+                    return;
                 double billTotalVal = Double.parseDouble(billTotal);
                 double tip = tipListener(); //gets tip rate
                 double tipNum = billTotalVal*tip;
                 double totalTip = tipNum+billTotalVal;
 
-                String tipTemp = String.format("$%.2f", tipNum);
-                String totalTemp = String.format("$%.2f", totalTip);
+                String tipTemp = String.format("%.2f", tipNum);
+                String totalTemp = String.format("%.2f", totalTip);
 
-                tv_tipAmount.setText(tipTemp);
-                tv_totalTip.setText(totalTemp);
+                StringBuilder sb = new StringBuilder(tipTemp);
+                sb.insert(0, "$");
+                StringBuilder sb2= new StringBuilder(totalTemp);
+                sb2.insert(0,"$");
+
+                tv_tipAmount.setText(sb);
+                tv_totalTip.setText(sb2);
             }
         });
     }
@@ -166,13 +150,20 @@ public class MainActivity extends AppCompatActivity {
                 double billPlusTip = billTotalVal+tip_res;
                 double res = Math.ceil((billPlusTip/numPeople) * 100.0) / 100.0;
 
-                String resTemp = String.format("$%.2f", res);
-                String tipTemp = String.format("$%.2f", tip_res);
-                String totalTemp = String.format("$%.2f", billPlusTip);
+                String resTemp = String.format("%.2f", res);
+                String tipTemp = String.format("%.2f", tip_res);
+                String totalTemp = String.format("%.2f", billPlusTip);
 
-                tv_tipAmount.setText(tipTemp);
-                tv_totalTip.setText(totalTemp);
-                tv_calculatedSplit.setText(resTemp);
+                StringBuilder sb3 = new StringBuilder(resTemp);
+                sb3.insert(0,"$");
+                StringBuilder sb1 = new StringBuilder(tipTemp);
+                sb1.insert(0, "$");
+                StringBuilder sb2= new StringBuilder(totalTemp);
+                sb2.insert(0,"$");
+
+                tv_tipAmount.setText(sb1);
+                tv_totalTip.setText(sb2);
+                tv_calculatedSplit.setText(sb3);
             }
         });
     }
