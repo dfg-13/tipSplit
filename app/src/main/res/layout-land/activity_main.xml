@@ -26,45 +26,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/tip_percent_ls"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_billTotal" />
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <TextView
         android:id="@+id/tv_tipAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/tip_amount_ls"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tipPercent" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <TextView
         android:id="@+id/tv_tipTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/total_with_tip_ls"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tipAmount" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_numPeople"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/number_of_people_ls"
@@ -79,22 +77,22 @@
         android:id="@+id/tv_calculatedSplit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="228dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/total_per_person_ls"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_numPeople" />
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <EditText
         android:id="@+id/et_billTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:background="#98fb98"
-        android:ems="8"
+        android:ems="6"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:textSize="20sp"
@@ -145,10 +143,10 @@
         android:id="@+id/et_numPeople"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="24dp"
         android:background="#98fb98"
         android:digits="0123456789"
-        android:ems="5"
+        android:ems="4"
         android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_numPeople"
@@ -161,7 +159,7 @@
         android:id="@+id/calculateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="72dp"
         android:text="@string/go_ls"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/rg_tips"
@@ -181,12 +179,12 @@
 
     <RadioGroup
         android:id="@+id/rg_tips"
-        android:layout_width="500dp"
+        android:layout_width="425dp"
         android:layout_height="50dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tipPercent">
+        app:layout_constraintTop_toTopOf="@+id/guideline6">
 
         <RadioButton
             android:id="@+id/tip12Button"
@@ -220,5 +218,45 @@
             android:text="@string/tip_20_ls"
             android:textSize="17sp" />
     </RadioGroup>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_percent="0.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_percent="1.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
