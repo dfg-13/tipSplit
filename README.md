@@ -1,6 +1,6 @@
 # TipSplitApp
 
-A simple bill splitting application which takes in a bill (without tax), one of four fixed tax rates, and the number of people to split the bill with. 
+A simple bill splitting application which takes in a total bill (with tax), one of four tip rates, and the number of people in order to evenly split the bill with. 
 
 Minimum Compatible SDK Version: 25 
 
