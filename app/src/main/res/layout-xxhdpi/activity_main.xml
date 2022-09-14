@@ -147,7 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:background="#98fb98"
-        android:digits="123456789"
+        android:digits="0123456789"
         android:ems="4"
         android:inputType="number"
         android:minHeight="48dp"

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         //Clear/reset button to clear all text inputs and reset radio buttons
         clearButton = findViewById(R.id.clearButton);
 
-        //preventTipListener();
+        preventPeopleZero();
         rTipListener();
         calcListener();
         clearListener();
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void rTipListener(){ //listener to allow live updates to the text views regarding tips
         RadioGroup rg = (RadioGroup) findViewById(R.id.rg_tips);
+
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -127,6 +128,23 @@ public class MainActivity extends AppCompatActivity {
                 tv_tipAmount.setText(sb);
                 tv_totalTip.setText(sb2);
             }
+        });
+    }
+
+    public void preventPeopleZero(){ //prevents the input of 0 as the first digit in the number of people edit text
+        et_numPeople.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (et_numPeople.getText().toString().matches("^0")){
+                    et_numPeople.setText("");
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
         });
     }
 
